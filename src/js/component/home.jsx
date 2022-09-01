@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-
 //create your first component
 const Home = () => {
 
@@ -20,13 +17,10 @@ const Home = () => {
 		obtenerDatos()
 	}, [])
 
-	const crearTodo = (e) => {
-		const newTodo = {label: e.target.value , done: false}
-		setTodo(newTodo)
-	}
 
 	const addTodo = () => {
-		setListOfTodos([...listOfTodos, todo])
+		const newTodo = {label: todo , done: false}
+		setListOfTodos([...listOfTodos, newTodo])
 		setTodo('')
 	}
 
@@ -54,11 +48,13 @@ const Home = () => {
         console.log(error);
     });
 	}
+
+
 	useEffect( () => {
-		subirDatos()
+		listOfTodos.length>0 ? subirDatos() : console.log("Hola mundoooo")
 	}, [listOfTodos])
 
-	let tareasPendientes = listOfTodos.length
+	const tareasPendientes = listOfTodos.length
 
 	const deleteTodo = (itemPaBorrar) => {
 		const newList = listOfTodos.filter( (item) => item !== itemPaBorrar)
@@ -73,7 +69,7 @@ const Home = () => {
 		<div className="container text-center w-50 bg-dark text-light mt-3">
 			<form>
 				<h1 className="p-1">FetchTodoApp - Charlytoc</h1>
-				<input type="text" placeholder="Ponte a hacer lo que debes" className="bg-secondary m-2 " onChange={(e) => {crearTodo(e)}} />
+				<input type="text" value={todo} className="bg-secondary m-2 " onChange={(e) => {setTodo(e.target.value)}} />
 				<button type="button" className="btn btn-outline btn-warning" onClick={addTodo}>Añadir todo</button>
 			</form>
 			<ul className="list-group list-group-flush">
